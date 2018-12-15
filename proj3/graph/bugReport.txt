@@ -1,0 +1,18 @@
+My bug is that I cannot run make and make check in my terminal (make style still works fine).
+the error message is as follows:
+
+airbears2-10-142-22-73:proj3 harryzhang$ make
+/Library/Developer/CommandLineTools/usr/bin/make -C graph default
+make[1]: Nothing to be done for `default'.
+/Library/Developer/CommandLineTools/usr/bin/make -C make default
+make[1]: Nothing to be done for `default'.
+/Library/Developer/CommandLineTools/usr/bin/make -C trip default
+make[1]: Nothing to be done for `default'.
+/Library/Developer/CommandLineTools/usr/bin/make -C grader default
+javac -cp "..:.:/Users/Harry Zhang/cs61b-software/lib/*:;..;.:/Users/Harry Zhang/cs61b-software/lib/*" -g -Xlint:unchecked -Xlint:deprecation -sourcepath .. -classpath ..:.:/Users/Harry Zhang/cs61b-software/lib/* GraphTest.java LabeledGraphTest.java SimpleUnitTest.java
+javac: invalid flag: Zhang/cs61b-software/lib/*
+Usage: javac <options> <source files>
+use --help for a list of possible options
+make[1]: *** [sentinel] Error 2
+make: *** [default] Error 2
+
