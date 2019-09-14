@@ -1,0 +1,257 @@
+commit f85e8ee6602ab594ab11ac5c5dced17ccd8f8c26
+Author: Matthew James Owen <omatthew98@berkeley.edu>
+Date:   Sun Sep 30 20:51:59 2018 -0700
+
+    passing style checker
+
+diff --git a/public_html/hw/code/hw4/student/Matching.java b/public_html/hw/code/hw4/student/Matching.java
+index 6af131b..d47453b 100644
+--- a/public_html/hw/code/hw4/student/Matching.java
++++ b/public_html/hw/code/hw4/student/Matching.java
+@@ -17,14 +17,14 @@ public class Matching {
+      *  string "QUIT/<newline>" */
+     public static void main(String[] ignored) {
+         Scanner inp = new Scanner(System.in);
+-        System.out.println("  Alternately type strings to match and patterns to");
+-        System.out.println("  match against them.  Use \\ at the end of line");
+-        System.out.println("  to enter multi-line strings or patterns (\\s");
+-        System.out.println("  are removed, leaving newlines).");
+-        System.out.println("  The program will indicate whether each pattern "
++        System.out.println(" Alternately type strings to match and patterns");
++        System.out.println(" to match against them. Use \\ at the end of line");
++        System.out.println(" to enter multi-line strings or patterns (\\s");
++        System.out.println(" are removed, leaving newlines).");
++        System.out.println(" The program will indicate whether each pattern "
+                            + "matches");
+-        System.out.println("  the ENTIRE preceding string.");
+-        System.out.println("  Enter QUIT to end the program.");
++        System.out.println(" the ENTIRE preceding string.");
++        System.out.println(" Enter QUIT to end the program.");
+         while (true) {
+             System.out.print("String: ");
+             String str = getInput(inp);
+diff --git a/public_html/hw/code/hw4/student/Utils.java b/public_html/hw/code/hw4/student/Utils.java
+index bcbe4fe..eb282f6 100644
+--- a/public_html/hw/code/hw4/student/Utils.java
++++ b/public_html/hw/code/hw4/student/Utils.java
+@@ -11,7 +11,7 @@ public class Utils {
+      *  List<Integer> x = createList(1, 6, 3, 2, 4);
+      *  Returns this new list.
+      */
+-    public static List<Integer> createList(Integer ... args) {
++    public static List<Integer> createList(Integer... args) {
+         LinkedList<Integer> L = new LinkedList<Integer>();
+         for (int k = 0; k < args.length; k += 1) {
+             L.add(args[k]);
+commit 4f07c11077dad2d46c45d36b7a235a52815dc6a2
+Author: Matthew James Owen <omatthew98@berkeley.edu>
+Date:   Sun Sep 30 20:37:15 2018 -0700
+
+    first pass of hw4
+
+diff --git a/public_html/hw/code/hw4/student/spec/hw4.md b/public_html/hw/code/hw4/student/spec/hw4.md
+index 6daebd7..7f4926f 100644
+--- a/public_html/hw/code/hw4/student/spec/hw4.md
++++ b/public_html/hw/code/hw4/student/spec/hw4.md
+@@ -2,6 +2,9 @@
+ ~ title: Scanners and Patterns
+ 
+ [java.util.regex.Pattern]: http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
++[arraylist-docs]: https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
++[regexr]: https://regexr.com/
++[regex101]: https://regex101.com/
+ 
+ Navigation
+ ----
+@@ -89,37 +92,36 @@ calls all three methods, testing as appropriate.
+ 
+ ### Experiment #1: TestReadInts
+ 
+-Try running `TestReadInts`. Look at `TestReadInts.java`, and you'll see
+-the contents of the input String `inp` are printed out as you'd
+-expect by the test. Yay, the provided code works.
++Try running `TestReadInts`. You should see that `testReadInts` and 
++`testSmartReadInts` fail, but `testPrintInts` will print out the contents of the input `String inp` as you would expect. Yay, the provided code works.
+ 
+ Next take a look at `ReadInts.java` and look at the source of the `printInts`
+-method. You'll see that it uses the `hasNext()` and
+-`nextInt()` methods.
++method. You'll see that it uses the `hasNext()` and `nextInt()` methods from
++the `Scanner` object `s`.
+ 
+ These methods, along with their most common brethren are described
+ below.
+ 
+-- `inp.hasNext()` is true iff there is another token (that
++- `s.hasNext()` is true iff there is another token (that
+    is, something other than a delimiter) before the end of the input.
+-- `inp.next()` returns the next token, and advances
+-  `inp` past it.
+-- `inp.hasNextInt()` is true iff `inp.hasNext()`
++- `s.next()` returns the next token, and advances
++  `s` past it.
++- `s.hasNextInt()` is true iff `s.hasNext()`
+   and the next token has the syntax of a (possibly signed) decimal
+   numeral.
+-- `inp.nextInt()` does a `inp.next()` and then
++- `s.nextInt()` does a `s.next()` and then
+   parses the token into an `int`.
+-- Likewise, there are `inp.hasNextDouble()`, which
+-  returns `double` values, and several other similarly named
+-  methods for other types.
+-- `inp.hasNextInt(RADIX)` is true iff the next token
+-  exists and has the syntax of a (possibly signed) base-RADIX numeral.
+-- `inp.nextInt(RADIX)` reads the next token as a base-
+-  RADIX numeral, throwing an exception if there is no next token, or it is not
+-  a decimal numeral.
+-- `inp.hasNextLine()` is true iff there is any more
+-  input.
+-- `inp.nextLine()` returns the next line of input (that is,
++- There are several other similarly named methods for other types such as
++  `s.hasNextDouble()` which returns true if there is another double available to be read and `s.nextDouble()` which returns a `double` parsed from a call to 
++  `s.next()`.
++- `s.hasNextInt(RADIX)` is true iff the next token
++  exists and has the syntax of a (possibly signed) base-RADIX numeral. For example 
++  this could be used to check for integers that are binary (RADIX = 2) or 
++  hexadecimal (RADIX = 16).
++- `s.nextInt(RADIX)` reads the next token as a base-RADIX numeral, throwing an
++  exception if there is no next token, or it is not a decimal numeral.
++- `s.hasNextLine()` is true iff there is any more input.
++- `s.nextLine()` returns the next line of input (that is,
+   everything up to, but not including, the next end-of-line character,
+   or the end of the input if there isn</tt>t an end-of-line at the end).
+   It then positions `inp` past the end-of-line character.  Thus,
+@@ -130,19 +132,17 @@ below.
+ 
+ #### Task 1: readInts()
+ 
+-When you run make check, you'll see that your code fails in readInts.
+-Head to the readInts method, and you'll see that one line of code is
++As above when you run `TestReadInts`, you'll see that your code fails in `readInts`.
++Head to the `readInts` method, and you'll see that one line of code is
+ missing.
+ 
+-Using the documentation for the `ArrayList` class, figure out how to
++Using the [documentation][arraylist-docs] for the `ArrayList` class, figure out how to
+ modify the code so that the readInts method works correctly.
+ 
+-The `TestReadInts` test feeds your
+-method a bad input, and actually expects an exception.
+-For those of
+-you who are particularly keen on the idea of testing exceptions, Junit
+-supports a less unwieldy syntax based on the @Rule tag, which you're
+-free to use.
++The `testReadInts` test feeds your method a bad input, and actually expects an 
++exception. For those of you who are particularly keen on the idea of testing
++exceptions, Junit supports a less unwieldy syntax based on the @Rule tag, which 
++you're free to use.
+ 
+ #### Task 2: smartReadInts()
+ 
+@@ -152,16 +152,16 @@ comments and `TestReadInts`. Use the `readInts` method as a guide.
+ C. Patterns
+ ----
+ 
+-Your code for part 1 looked through input token by token, accepting
++Your code in the previous part looked through input token by token, accepting
+ tokens that were integers. How does Java know if a string represents
+-an integer? As you might imagine, it looks for sequences containing
+-only the digits 0123456789, and possibly starting with a `-`.
++an integer? As you might imagine, it looks for sequences possibly starting with a `-`
++containing only the digits 0-9.
+ 
+ What if we want to match, for example, numerals that only contain
+ digits less than 5? Or five-digit numerals only?
+ 
+ Java provides a faculty for this known as *Pattern Matching*, and
+-supports a rich syntax for specifying patterns. For example, one-digis numerals
++supports a rich syntax for specifying patterns. For example, one-digit numerals
+ less than 5 could be expressed by the pattern "[01234]". Five-digit
+ numberals could be expressed by `"[0-9][0-9][0-9][0-9][0-9]"` or `"[0-9]{5}"`.
+ 
+@@ -179,7 +179,7 @@ forward in 61B.
+ 
+ - Most characters (letters, digits, most punctuation) simply match
+   themselves.
+-- A period (".") matches any character other than (usually)
++- A period (".") acts as a wildcard and matches any character other than (usually)
+   newline.  To get "." to match newline as well, include
+   `(?s)` at the beginning of your pattern. 
+ - A sequence such as "[abe]" denotes a *character
+@@ -188,19 +188,18 @@ forward in 61B.
+    represent a range of characters with a hyphen, as in `"[abd-qs-z]"` to
+   mean `a`, `b`, `d` through `q`, and `s`
+   through `z`.
+-- A sequence beginning with a carat, such as `[^abe]`, 
+-  matches any single character
+-  _other than_ those listed.
++- A character class beginning with a carat, such as `[^abe]`, 
++  matches any single character _other than_ those listed.
+ - There are several useful two-character shorthands for certain
+   character classes.  `\d` is short for `[0-9]`,
+   `\s` is short for `[ \t\n\r]` (that is, for whitespace).
+   Unfortunately, in order to put an actual `\` in a string, you
+   must double it.  Thus, a pattern that matches any two-digit string
+   would be written as the string literal `"\\d\\d"`.
+-  [The Python language got around this problem with "raw strings" such
++  (The Python language got around this problem with "raw strings" such
+   as `r"\s"`, and Perl got around it by having patterns be a part of
+   the syntax, distinct from strings.  The Java designers, however, apparently
+-  never saw the need.]
++  never saw the need.)
+ - If `P` represents a pattern, then `P*` represents
+   "0 or more repetitions of P".  Thus, `x*` matches the empty
+   string, "x", "xx", "xxx", etc.  `[a-c]*` matches "", "a", "ab",
+@@ -212,22 +211,13 @@ forward in 61B.
+   `ab`s", use `(ab)*`
+ - Similarly, P+ means "1 or more Ps."
+ - `P?` denotes an optional P (0 or 1 Ps).
+-- If `P` and `Q` denote patterns, then
+-  `P|Q` denotes "a `P` or a `Q`".
++- If `P` and `Q` denote patterns, then `P|Q` denotes "a `P` or a `Q`". For example the pattern `a|b` will match either "a" or "b".
+ - `(P)` denotes the same thing as P. It also serves to
+    define a *group*, a subpattern whose match you can
+    retrieve later.
+-- `(?:P)` also denotes the same thing as P, but it does not
++- `(?:P)` also denotes the same thing as `P`, but it does not
+   define a group that you can retrieve later.
+-- Following a `*`, `+`, or `?` with a
+-  `?` creates a "non- greedy" version, meaning that it matches as
+-  few characters as possible to make the match work. This affects
+-  _what_ part of a string gets matched, but usually not
+-  _whether_ a string gets matched.  For example, if you are
+-   matching the string "1, 2, 3, 4" against the pattern string
+-  `"(\\d).*(\\d).*"`, the first group will match `1` and second
+- will match `4`.  But with the pattern string `"(\\d).*?(\\d).*"`,
+- the second group will match `2`.
++- Following a `*`, `+`, or `?` with a `?` creates a "non-greedy" version, meaning that it matches as few characters as possible to make the match work. This affects _what_ part of a string gets matched, but usually not _whether_ a string gets matched. For example, if you are matching the string "1, 2, 3, 4" against the pattern string `"(\\d).*(\\d).*"`, the first group will match `1` and second will match `4`.  But with the pattern string `"(\\d).*?(\\d).*"`, the second group will match `2`.
+ - ***Boundary matchers*** match the empty string, but only
+   at certain places.  `^` and `$` match the beginning and
+   end of a string, respectively (but see below).  `\G` matches
+@@ -235,7 +225,7 @@ forward in 61B.
+   `Scanners`, `Matchers`, or other kinds of things that have a notion of
+   "the last thing that was matched").  `\b` matches a "word
+    boundary", a place where a word begins or ends. (Again, when coding the
+-  pattern as a String literal, you must write `\\b`.)
++  pattern as a `String` literal, you must write `\\b`.)
+ - The sequence `(?m)` always matches the empty string, but
+   has a side effect of causing `^` and `$` to match the
+   beginnings and ends of lines as well as of entire strings.
+@@ -284,7 +274,7 @@ Use this class to experiment with how patterns work. Try writing
+ patterns that match the following. Sample answers are given for each
+ problem (drag the mouse over the white area after "Answer:" to see it).
+ 
+-- A single digit between 5 and 8. Answer: <whiteout>[5-8]</whiteout>.
++- A single digit between 5 and 8. Answer: <whiteout>[5-8]</whiteout>
+ - Sequences of lower case letters. Answer: <whiteout>[a-z]+</whiteout>
+ - Sequences of lower case letters except the letter j. Answer: 
+   <whiteout>[a-i|k-z]+</whiteout>
+@@ -297,6 +287,8 @@ problem (drag the mouse over the white area after "Answer:" to see it).
+   words separated by spaces, and where group 1 corresponds to the second
+   word. Answer: <whiteout>[a-z]+ +([a-z]+) +[a-z]+</whiteout>
+ 
++To get more practice with writing regular expressions check out [RegExr][regexr] or [regular expressions 101][regex101]. Note that these sites use just regular expressions not Java patterns which differ slightly as we have discussed above. They are still a great way to build more familiarity with regular expressions which as we have mentioned have many different applications involving string matching across multiple different programming languages.
++
+ ### Programming task
+ 
+ In  `P2Pattern.java`, fill in the string with a pattern that

@@ -1,0 +1,34 @@
+
+HW #5.
+
+Question D.
+
+1.Big Theta(X^2)
+
+
+2. Big Theta(log(X))
+
+
+3. Big Theta(N^3)
+
+
+4. Big Theta (M+N)
+
+
+5. Big Theta (NlogN)
+
+
+6. Since we know that log_b (x) = log_a (x) / log_a (b)
+   Then log_b (f(x)) = log_10 ((f(x)) / log_10 (b)
+   K = log_10 (-b)
+   M = b
+
+
+7. Suppose p(x) is of degree n, which can be expressed as p(x) = a_n*x^n + a_n-1 *x^(n-1) + ... + a0
+   Each power can be extracted and put in front of log as the coefficient, which is a subset of O(log(x)).
+   Cannot guarantee Big Theta because the lower bound's degree may be 0, meaning that Big Omega can be constant.
+
+
+8. If f(n) is a postiive monotonicically non-decreasing function, we have that f(n)/(upperf(n))
+   is also non-decreasing.
+   Take C = 2*infimum of f(n)/(upperf(n)). Then upperf(n) < C f(n) which means that upperf(n) in O(f(n)).
